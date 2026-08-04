@@ -368,11 +368,15 @@ export function renderError(where, msg) {
 }
 
 /* 站頭與頁尾。四個工具與中樞共用同一份，避免連結在某一頁漏掉。 */
+/* 導覽順序＝新手的閱讀順序，不是我們開發的順序。
+   先「現在怎樣」，再「有哪些標的」，再「今天發生什麼」，最後才是深入的工具。 */
 export const PAGES = [
-  { href: 'chain/', label: '上游' },
+  { href: 'assets/', label: '標的分析' },
+  { href: 'news/', label: '最新資訊' },
   { href: 'lead/', label: '誰在領先' },
-  { href: 'metal/', label: '貴金屬' },
-  { href: 'now/', label: '現在的環境' },
+  { href: 'metal/', label: '黃金' },
+  { href: 'chain/', label: '美元與台股' },
+  { href: 'now/', label: '緊張程度' },
 ];
 
 export function renderMasthead(current, base = '') {

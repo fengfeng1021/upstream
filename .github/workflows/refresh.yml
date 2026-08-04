@@ -1,0 +1,53 @@
+# 每天自動重抓資料與新聞，然後 commit 回 repo。
+#
+# 為什麼需要這個：這是純靜態站，資料是 build time 的快照。沒有這個排程，
+# 「最新資訊」會停在最後一次手動 build 的那一天，而一個停在三個月前的
+# 財經站比沒有還糟——它看起來是現在的。
+#
+# 排程刻意不挑整點：整點是所有人的預設值，GitHub 的排程佇列在那幾分鐘最擠，
+# 常常延遲十幾分鐘才跑。挑一個沒人用的分鐘反而準時。
+name: 每日更新資料
+
+on:
+  schedule:
+    - cron: '17 22 * * *'   # UTC 22:17 = 台北隔天 06:17，美股收盤後、台股開盤前
+  workflow_dispatch:         # 也可以手動觸發
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: 抓市場資料（FRED + Yahoo）
+        run: node tools/build-snapshot.mjs
+
+      - name: 抓台灣資料與 LBMA
+        run: node tools/build-taiwan.mjs
+        continue-on-error: true   # 證交所節流很兇，失敗就沿用上一版，不要讓整個排程掛掉
+
+      - name: 抓新聞
+        run: node tools/build-news.mjs
+        continue-on-error: true
+
+      - name: 機械檢查
+        run: node tools/audit.mjs
+
+      - name: Commit
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/data
+          if git diff --staged --quiet; then
+            echo "資料沒有變動，不 commit"
+          else
+            git commit -m "資料自動更新 $(date -u +%Y-%m-%d)"
+            git push
+          fi
