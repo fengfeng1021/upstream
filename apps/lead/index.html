@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>誰在領先 ／ 該押股、該換匯，還是該做貴金屬 · upstream</title>
+<meta name="description" content="股、債、貴金屬、商品、匯的 3、6、12 個月變動並排，用台幣計價。多視窗一致與不一致都畫出來。">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/tokens.css">
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="../../assets/css/components.css">
+<link rel="stylesheet" href="../../assets/css/app.css">
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要內容</a>
+<div id="masthead"></div>
+
+<main id="main">
+  <section class="u-sec a-hero">
+    <div class="wrap">
+      <div class="a-hero__grid">
+        <div>
+          <h1 class="a-hero__title">三個視窗看同一件事。</h1>
+          <p class="a-hero__sub read">3、6、12 個月的變動並排。一致的時候它們指同一邊，不一致的時候差別本身就是資訊。</p>
+        </div>
+        <div class="a-hero__stamp" id="stamp"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="u-sec">
+    <div class="wrap">
+      <div class="a-controls">
+        <div id="dialCcy"></div>
+      </div>
+      <div id="board" class="a-board u-enter"></div>
+    </div>
+  </section>
+
+  <section class="u-sec">
+    <div class="wrap">
+      <div id="verdict" class="u-enter"></div>
+    </div>
+  </section>
+</main>
+
+<div id="foot"></div>
+
+<script src="../../assets/js/vendor/gsap.min.js"></script>
+<script src="../../assets/js/vendor/ScrollTrigger.min.js"></script>
+<script type="module" src="../../assets/js/apps/lead.js"></script>
+</body>
+</html>

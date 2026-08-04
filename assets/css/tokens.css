@@ -1,0 +1,90 @@
+/* 代幣。DESIGN.md §3 的機械化版本。
+   所有對比度都用 WCAG 相對亮度算過，數字標在旁邊，不是估的。 */
+
+:root {
+  color-scheme: light dark;
+
+  /* 面（乾混凝土） */
+  --face:      #E9E8E3;
+  --face-2:    #F4F3EF;  /* 抬起的面板 */
+  --face-sunk: #DBDAD4;  /* 標尺槽、輸入槽 */
+
+  /* 字 */
+  --ink:   #181A17;  /* 對 face 14.28:1 */
+  --ink-2: #3F423C;  /* 對 face 8.33:1 */
+  --ink-3: #5A5E56;  /* 對 face 5.40:1、face-2 5.97:1、sunk 4.73:1 */
+
+  --rule:        #C6C5BE;  /* 主刻線 */
+  --rule-strong: #9B9A92;  /* 長刻線 */
+  --rule-faint:  #DEDDD7;  /* 高水位痕 */
+
+  /* 強調（水）。對 face 5.25:1、face-2 5.80:1、sunk 4.60:1；白字壓在上面 6.44:1 */
+  --accent:      #8F4E04;
+  --accent-hi:   #A75B06;
+  --accent-ink:  #FFFFFF;
+  --accent-wash: #F0E4D5;
+
+  /* 語意（台灣制：漲紅跌綠）。對 face：up 5.55:1、down 5.38:1 */
+  --up:    #B0202A;
+  --down:  #0A6B3D;
+  --warn:  #8A5300;
+  --ghost: #B4B3AB;
+
+  --font-cjk:  "Noto Sans TC", -apple-system, BlinkMacSystemFont, "PingFang TC",
+               "Microsoft JhengHei", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "Roboto Mono", ui-monospace, "SF Mono",
+               "Cascadia Mono", Consolas, monospace;
+
+  --t-xs:   0.75rem;
+  --t-sm:   0.8125rem;
+  --t-base: 0.9375rem;
+  --t-md:   1.0625rem;
+  --t-lg:   1.3125rem;
+  --t-xl:   1.625rem;
+  --t-2xl:  2.0625rem;
+  --t-3xl:  2.625rem;
+  --t-readout: clamp(2.5rem, 7vw, 4.25rem);
+
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+  --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px; --s-9: 96px;
+
+  --radius: 6px;    /* 形狀鎖，全站唯一值 */
+  --hair: 1px;
+  --gauge-w: 28px;
+  --tap: 44px;
+  --wrap: 1180px;
+  --read: 62ch;
+
+  --e-flow: cubic-bezier(0.33, 0, 0.15, 1);
+  --e-rise: cubic-bezier(0.22, 1, 0.36, 1);
+  --d-fast: 0.18s;
+  --d-base: 0.34s;
+  --d-slow: 0.6s;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --face:      #1A1B18;  /* 濕混凝土 */
+    --face-2:    #232420;
+    --face-sunk: #111210;
+
+    --ink:   #EFEFEA;  /* 對 face 15.00:1 */
+    --ink-2: #B7B9B1;  /* 對 face 8.72:1 */
+    --ink-3: #8D9088;  /* 對 face 5.34:1、face-2 4.82:1 */
+
+    --rule:        #33352F;
+    --rule-strong: #4F524A;
+    --rule-faint:  #262823;
+
+    /* 對 face 8.22:1、face-2 7.42:1；accent-ink 壓在上面 8.40:1 */
+    --accent:      #F0A24B;
+    --accent-hi:   #FFBC74;
+    --accent-ink:  #231604;
+    --accent-wash: #3A2A15;
+
+    --up:    #E85C60;  /* 對 face-2 4.56:1 */
+    --down:  #34B87A;  /* 對 face-2 6.16:1 */
+    --warn:  #D9A23A;
+    --ghost: #5C5F57;
+  }
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>現在的環境 ／ 同時發生的事 · upstream</title>
+<meta name="description" content="波動率、信用利差、金融情勢、殖利率曲線的現況與百分位。只描述現在，一個未來式動詞都沒有。">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/tokens.css">
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="../../assets/css/components.css">
+<link rel="stylesheet" href="../../assets/css/app.css">
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要內容</a>
+<div id="masthead"></div>
+
+<main id="main">
+  <section class="u-sec a-hero">
+    <div class="wrap">
+      <div class="a-hero__grid">
+        <div>
+          <h1 class="a-hero__title">這一頁只講現在。</h1>
+          <p class="a-hero__sub read">四個讀數，四個百分位，每一個都標著視窗有多長。沒有一句話是關於接下來會發生什麼。</p>
+        </div>
+        <div class="a-hero__stamp" id="stamp"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="u-sec">
+    <div class="wrap">
+      <div class="a-controls"><div id="dial"></div></div>
+      <div id="levels" class="a-levels u-enter"></div>
+      <div id="notes" class="a-notes u-enter"></div>
+    </div>
+  </section>
+
+  <section class="u-sec">
+    <div class="wrap">
+      <div class="u-sec__head">
+        <h2 class="u-sec__title">殖利率曲線倒掛的歷史紀錄</h2>
+        <p class="u-sec__sub">包含沒有等到衰退的那幾次。失敗案例跟成功案例同一張表、同樣字級，不放註腳。</p>
+      </div>
+      <div class="u-panel u-enter">
+        <div class="u-matrix__wrap"><table class="u-matrix" id="curveTable"></table></div>
+        <p class="u-note" id="curveNote"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="u-sec">
+    <div class="wrap">
+      <div id="verdict" class="u-enter"></div>
+    </div>
+  </section>
+</main>
+
+<div id="foot"></div>
+
+<script src="../../assets/js/vendor/gsap.min.js"></script>
+<script src="../../assets/js/vendor/ScrollTrigger.min.js"></script>
+<script type="module" src="../../assets/js/apps/now.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>上游 ／ 這條鏈有沒有時間差 · upstream</title>
+<meta name="description" content="美元、台幣、外資、台股這四環的關聯，用 1990 年以來的月報酬逐環量出來。同期關聯很強，落後一期趨近於零。">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/tokens.css">
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="../../assets/css/components.css">
+<link rel="stylesheet" href="../../assets/css/app.css">
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要內容</a>
+<div id="masthead"></div>
+
+<main id="main">
+  <section class="u-sec a-hero">
+    <div class="wrap">
+      <div class="a-hero__grid">
+        <div>
+          <h1 class="a-hero__title">你以為的上游，<br>其實跟你同一個月。</h1>
+          <p class="a-hero__sub read">美元轉強、台幣貶值、外資賣超、台股下跌。這四件事的關聯是真的，但它們沒有先後。</p>
+        </div>
+        <div class="a-hero__stamp" id="stamp"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="u-sec">
+    <div class="wrap">
+      <div id="chain" class="u-enter"></div>
+
+      <div class="a-switchbar u-enter">
+        <div class="u-switch" role="group" aria-label="播放模式">
+          <button class="u-switch__opt" type="button" data-mode="believe" aria-pressed="true">你以為的</button>
+          <button class="u-switch__opt" type="button" data-mode="measured" aria-pressed="false">實際量到的</button>
+        </div>
+        <p class="a-switchbar__note" id="modeNote"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="u-sec">
+    <div class="wrap a-two">
+      <div class="u-panel u-enter">
+        <div class="u-panel__head">
+          <h2 class="u-panel__title">每一環，逐個落後期</h2>
+          <span id="matrixStamp"></span>
+        </div>
+        <div class="u-matrix__wrap"><table class="u-matrix" id="matrix"></table></div>
+        <p class="u-note" id="matrixNote"></p>
+      </div>
+      <div class="a-side">
+        <div id="dial" class="u-enter"></div>
+        <div id="verdict" class="u-enter"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="u-sec">
+    <div class="wrap">
+      <div class="u-sec__head">
+        <h2 class="u-sec__title">四環各自的水位</h2>
+        <p class="u-sec__sub">每一格的百分位都標著它是用多長的視窗算的。換一個視窗，同一個數字可能從高變低。</p>
+      </div>
+      <div id="levels" class="a-levels u-enter"></div>
+    </div>
+  </section>
+</main>
+
+<div id="foot"></div>
+
+<script src="../../assets/js/vendor/gsap.min.js"></script>
+<script src="../../assets/js/vendor/ScrollTrigger.min.js"></script>
+<script type="module" src="../../assets/js/apps/chain.js"></script>
+</body>
+</html>

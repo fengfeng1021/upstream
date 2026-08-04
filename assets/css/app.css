@@ -1,0 +1,149 @@
+/* 各工具頁的版面。物件本身在 components.css，這裡只放「這些物件怎麼排」。 */
+
+/* 首屏。左文右戳，非置中（taste 反置中偏誤）。文字元素三個：標題、副標、資料日。 */
+.a-hero { padding-top: var(--s-7); }
+.a-hero__grid {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--s-5); align-items: start;
+}
+.a-hero__title {
+  font-size: clamp(1.9rem, 5vw, var(--t-3xl));
+  letter-spacing: -0.03em; line-height: 1.18;
+}
+.a-hero__sub { margin-top: var(--s-4); color: var(--ink-2); font-size: var(--t-md); }
+.a-hero__stamp { padding-top: var(--s-2); }
+@media (max-width: 767px) {
+  .a-hero__grid { grid-template-columns: 1fr; }
+  .a-hero__stamp { padding-top: 0; }
+}
+
+/* 鏈的節點讀數 */
+.a-chain__val { font-size: var(--t-xl); font-weight: 500; line-height: 1.2; }
+
+/* 切換列。這是工具 1 的產品本體，所以它自己一行、置左、跟主按鈕同尺寸。 */
+.a-switchbar {
+  margin-top: var(--s-6);
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-4);
+}
+.a-switchbar__note { color: var(--ink-2); font-size: var(--t-sm); max-width: 46ch; }
+
+/* 兩欄：主件在左、控制與判讀在右。行動版塌成單欄。 */
+.a-two {
+  display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: var(--s-6); align-items: start;
+}
+.a-side { display: flex; flex-direction: column; gap: var(--s-5); }
+@media (max-width: 1023px) { .a-two { grid-template-columns: 1fr; } }
+
+/* 四環水位。四格等寬，行動版兩欄再塌成一欄。 */
+.a-levels {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s-5);
+}
+.a-level {
+  padding: var(--s-4);
+  background: var(--face-2);
+  border: var(--hair) solid var(--rule);
+  border-radius: var(--radius);
+}
+.a-level__name { font-size: var(--t-sm); color: var(--ink-2); margin-bottom: var(--s-3); font-weight: 500; }
+@media (max-width: 1023px) { .a-levels { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .a-levels { grid-template-columns: 1fr; } }
+
+/* 中樞：不對稱 bento，恰好 4 格（1 大 + 3 小）。格數等於內容數，沒有空格。 */
+.h-bento {
+  display: grid; gap: var(--s-4);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.h-bento__cell {
+  display: flex; flex-direction: column; gap: var(--s-3);
+  padding: var(--s-5);
+  background: var(--face-2);
+  border: var(--hair) solid var(--rule);
+  border-radius: var(--radius);
+  text-decoration: none;
+}
+.h-bento__cell:hover { border-color: var(--ink-3); }
+.h-bento__cell:first-child { grid-column: span 3; }
+.h-bento__q { font-size: var(--t-lg); font-weight: 700; letter-spacing: -0.01em; }
+.h-bento__cell:first-child .h-bento__q { font-size: var(--t-xl); }
+.h-bento__body { color: var(--ink-2); font-size: var(--t-sm); max-width: 52ch; }
+/* 中樞的讀數是佐證不是主角，所以降到 --t-2xl。
+   工具頁裡的 .u-readout 才用 --t-readout（那裡它是儀器的臉）。 */
+.h-bento__read { margin-top: auto; padding-top: var(--s-2); }
+.h-bento__read .u-readout__num { font-size: var(--t-2xl); }
+.h-bento__read .u-readout { gap: var(--s-1); }
+@media (max-width: 900px) {
+  .h-bento { grid-template-columns: 1fr; }
+  .h-bento__cell:first-child { grid-column: span 1; }
+}
+
+/* 中樞首屏：左文右鏈。
+   不用 min-height: 100dvh 撐滿：桌機上那樣會在內容底下留一大塊死白，
+   讀者第一眼看到的是空氣而不是東西。改成內容自然高度加上一段留白，
+   375×667 仍然要能完整看到標題、副標與 CTA（§8）。 */
+.h-hero__grid {
+  display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: var(--s-7); align-items: center;
+  padding: var(--s-8) 0 var(--s-7);
+}
+.h-hero__title { font-size: clamp(2rem, 5.4vw, var(--t-3xl)); letter-spacing: -0.03em; line-height: 1.16; }
+.h-hero__sub { margin-top: var(--s-4); color: var(--ink-2); font-size: var(--t-md); max-width: 34ch; }
+.h-hero__cta { margin-top: var(--s-6); display: flex; gap: var(--s-3); flex-wrap: wrap; }
+@media (max-width: 900px) {
+  .h-hero__grid { grid-template-columns: 1fr; min-height: 0; gap: var(--s-6); padding-top: var(--s-4); }
+}
+
+/* 資料地基：滿版單軌時間尺 */
+.h-axis { position: relative; padding: var(--s-6) 0 var(--s-5); }
+.h-axis__line { height: 2px; background: var(--rule-strong); position: relative; }
+.h-axis__tick { position: absolute; top: -4px; width: var(--hair); height: 10px; background: var(--rule-strong); }
+.h-axis__labs { position: relative; height: 18px; }
+.h-axis__lab {
+  position: absolute; top: 4px; transform: translateX(-50%);
+  font-family: var(--font-mono); font-size: var(--t-xs); color: var(--ink-3); white-space: nowrap;
+}
+.h-axis__rows { margin-top: var(--s-6); display: flex; flex-direction: column; gap: var(--s-2); }
+.h-axis__row { display: grid; grid-template-columns: 8.5rem 1fr; gap: var(--s-3); align-items: center; }
+.h-axis__name { font-size: var(--t-xs); color: var(--ink-2); }
+.h-axis__bar { position: relative; height: 8px; background: var(--face-sunk); border-radius: 2px; }
+.h-axis__span { position: absolute; top: 0; bottom: 0; background: var(--rule-strong); border-radius: 2px; }
+@media (max-width: 767px) { .h-axis__row { grid-template-columns: 6rem 1fr; } }
+
+/* 不做什麼：兩欄分組，稀疏分隔 */
+.h-rules { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-6) var(--s-7); }
+.h-rules__group + .h-rules__group { }
+.h-rules__group h3 { font-size: var(--t-md); margin-bottom: var(--s-3); }
+.h-rules__group p { color: var(--ink-2); font-size: var(--t-sm); }
+.h-rules__group p + p { margin-top: var(--s-3); padding-top: var(--s-3); border-top: var(--hair) solid var(--rule-faint); }
+@media (max-width: 767px) { .h-rules { grid-template-columns: 1fr; gap: var(--s-5); } }
+
+/* 中樞首屏的鏈。不放讀數：首屏要講的是「它們一起動」的形狀，不是數字。 */
+.h-chain .u-chain__node { padding: var(--s-4) var(--s-3); text-align: center; }
+.h-chain .u-chain__title { margin-bottom: 0; font-size: var(--t-base); }
+.h-chain__cap { margin-top: var(--s-4); font-size: var(--t-sm); color: var(--ink-3); }
+@media (max-width: 767px) {
+  .h-chain .u-chain__node { padding: var(--s-3); }
+}
+
+/* 工具 2 ／ 誰在領先 */
+.a-controls { margin-bottom: var(--s-6); }
+.a-board { display: flex; flex-direction: column; gap: var(--s-7); }
+.a-group__head { margin-bottom: var(--s-4); padding-bottom: var(--s-3); border-bottom: var(--hair) solid var(--rule); }
+.a-group__name { font-size: var(--t-lg); }
+.a-group__role { margin-top: var(--s-1); color: var(--ink-3); font-size: var(--t-sm); max-width: var(--read); }
+.a-group__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-5) var(--s-7); }
+.a-asset__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-3); margin-bottom: var(--s-2); }
+.a-asset__name { font-size: var(--t-base); font-weight: 500; }
+.a-asset__flag { font-size: var(--t-xs); color: var(--ink-3); font-family: var(--font-mono); }
+.a-asset__flag.is-agree { color: var(--ink-2); }
+@media (max-width: 900px) { .a-group__list { grid-template-columns: 1fr; gap: var(--s-5); } }
+
+/* 工具 3 ／ 貴金屬 */
+.a-scatter { width: 100%; display: block; border-radius: var(--radius); background: var(--face-sunk); }
+.u-matrix tr[data-cur="true"] td { background: color-mix(in srgb, var(--accent-wash) 55%, transparent); }
+
+/* 工具 4 ／ 現在的環境 */
+.a-notes { margin-top: var(--s-6); display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: var(--s-5); }
+.a-note__name { font-size: var(--t-sm); font-weight: 700; margin-bottom: var(--s-2); }
+@media (max-width: 1023px) { .a-notes { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (max-width: 560px) { .a-notes { grid-template-columns: 1fr; } }

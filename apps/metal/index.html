@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>貴金屬 ／ 黃金在對什麼反應 · upstream</title>
+<meta name="description" content="LBMA 定盤價從 1968 年起。黃金對實質利率的敏感度沒有崩，崩掉的是水位關係。用變動而不是水位來看。">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/tokens.css">
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="../../assets/css/components.css">
+<link rel="stylesheet" href="../../assets/css/app.css">
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要內容</a>
+<div id="masthead"></div>
+
+<main id="main">
+  <section class="u-sec a-hero">
+    <div class="wrap">
+      <div class="a-hero__grid">
+        <div>
+          <h1 class="a-hero__title">敏感度沒有崩，<br>崩掉的是水位關係。</h1>
+          <p class="a-hero__sub read">黃金對實質利率的反應常被說成失效了。用變動去量，它每一個子期間都在；用水位去量，它確實崩了。這是兩件事。</p>
+        </div>
+        <div class="a-hero__stamp" id="stamp"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="u-sec">
+    <div class="wrap a-two">
+      <div class="u-panel u-enter">
+        <div class="u-panel__head">
+          <h2 class="u-panel__title">黃金月變動對實質利率月變動</h2>
+          <span id="scatterStamp"></span>
+        </div>
+        <canvas id="scatter" class="a-scatter" width="720" height="460"
+          role="img" aria-label="散布圖：橫軸為美國 10 年期實質利率的月變動，縱軸為黃金的月變動，附迴歸線"></canvas>
+        <p class="u-note" id="scatterNote"></p>
+      </div>
+      <div class="a-side">
+        <div id="dial" class="u-enter"></div>
+        <div class="u-panel u-enter">
+          <div class="u-panel__head"><h2 class="u-panel__title">逐期間</h2></div>
+          <div class="u-matrix__wrap"><table class="u-matrix" id="betaTable"></table></div>
+          <p class="u-note">敏感度是「實質利率每變動 1 個百分點，黃金當月變動幾 %」。水位相關是同一段期間裡黃金價格與實質利率水位的相關係數。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="u-sec">
+    <div class="wrap">
+      <div class="u-sec__head">
+        <h2 class="u-sec__title">現在的水位</h2>
+        <p class="u-sec__sub">LBMA 定盤價回到 1968 年，是真正的定盤基準而不是滾動期貨合約。</p>
+      </div>
+      <div id="levels" class="a-levels u-enter"></div>
+    </div>
+  </section>
+
+  <section class="u-sec">
+    <div class="wrap">
+      <div id="verdict" class="u-enter"></div>
+    </div>
+  </section>
+</main>
+
+<div id="foot"></div>
+
+<script src="../../assets/js/vendor/gsap.min.js"></script>
+<script src="../../assets/js/vendor/ScrollTrigger.min.js"></script>
+<script type="module" src="../../assets/js/apps/metal.js"></script>
+</body>
+</html>

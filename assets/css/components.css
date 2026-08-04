@@ -1,0 +1,304 @@
+/* 物件層。DESIGN.md §4 的機械化版本，一個物件一個區塊，順序與文件相同。 */
+
+/* ── 4.2 .u-gauge 水位標尺 ────────────────────────────────────────────────
+   招牌元素。痕跡是資料不是裝飾：每一道橫線是一個真實的歷史觀測，
+   疏密就是分布密度。240 個觀測不生 240 個 div，痕跡走 <canvas>。 */
+
+.u-gauge { display: flex; gap: var(--s-3); align-items: stretch; }
+
+.u-gauge__well {
+  position: relative;
+  width: var(--gauge-w);
+  flex: none;
+  background: var(--face-sunk);
+  border: var(--hair) solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.u-gauge--sm .u-gauge__well { height: 64px; }
+.u-gauge--md .u-gauge__well { height: 140px; }
+.u-gauge--lg .u-gauge__well { height: 260px; width: 40px; }
+
+.u-gauge__marks { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+/* 現在的水位。左端的實心三角用 clip-path 畫，不是 SVG 圖示。 */
+.u-gauge__now {
+  position: absolute; left: -3px; right: -3px;
+  height: 3px; background: var(--accent);
+  transform-origin: center;
+}
+.u-gauge__now::before {
+  content: ""; position: absolute; left: 0; top: 50%;
+  width: 5px; height: 9px; margin-top: -4.5px;
+  background: var(--accent);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+.u-gauge:hover .u-gauge__now,
+.u-gauge:focus-within .u-gauge__now { background: var(--accent-hi); }
+.u-gauge:hover .u-gauge__now::before,
+.u-gauge:focus-within .u-gauge__now::before { background: var(--accent-hi); }
+
+/* 視窗不一致時畫第二條。虛線，因為它是「另一個口徑」而不是另一個值。 */
+.u-gauge__now--alt {
+  height: 0; border-top: 2px dashed var(--accent);
+  background: none; opacity: 0.75;
+}
+.u-gauge__now--alt::before { display: none; }
+
+.u-gauge__label { display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+.u-gauge__value {
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+  font-size: var(--t-lg); font-weight: 500; line-height: 1.2;
+}
+.u-gauge__unit { font-size: var(--t-sm); color: var(--ink-2); margin-left: 2px; }
+.u-gauge__name { font-size: var(--t-sm); color: var(--ink-2); margin-top: 2px; }
+/* 第二行永遠存在：百分位一定跟視窗寫在一起（DESIGN.md §1.3 元件契約）。 */
+.u-gauge__pct {
+  font-family: var(--font-mono); font-size: var(--t-xs); color: var(--ink-3);
+  margin-top: 2px; line-height: 1.5;
+}
+.u-gauge__short { font-size: var(--t-xs); color: var(--ink-3); line-height: 1.55; }
+
+/* ── 4.3 .u-chain 傳導鏈 ──────────────────────────────────────────────── */
+
+/* 四個節點交錯三條連線＝七欄。模板寫在 CSS 而不是由 JS 設 inline style，
+   否則 inline 會蓋掉下面的手機斷點，鏈就永遠轉不成垂直。 */
+.u-chain {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr) minmax(48px, 0.5fr)
+    minmax(0, 1fr) minmax(48px, 0.5fr)
+    minmax(0, 1fr) minmax(48px, 0.5fr)
+    minmax(0, 1fr);
+  gap: 0;
+  align-items: start;
+}
+.u-chain__node {
+  position: relative;
+  padding: var(--s-4);
+  background: var(--face-2);
+  border: var(--hair) solid var(--rule);
+  border-radius: var(--radius);
+  transition: border-color var(--d-fast), background var(--d-fast);
+}
+.u-chain__node[data-active="true"] {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent-wash) 55%, var(--face-2));
+}
+.u-chain__title { font-size: var(--t-sm); font-weight: 700; margin-bottom: var(--s-3); }
+.u-chain__note { font-size: var(--t-xs); color: var(--ink-3); margin-top: var(--s-2); line-height: 1.5; }
+
+/* 連線。實線＝同期關聯顯著；虛線＝這段期間量不到。
+   斷線不是錯誤狀態，它跟通的線同樣顯眼、同樣字級。 */
+.u-chain__link {
+  position: relative;
+  align-self: center;
+  min-height: 2px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 0 var(--s-2);
+}
+.u-chain__wire {
+  position: relative; width: 100%; height: 2px; background: var(--rule-strong);
+}
+.u-chain__link[data-weak="true"] .u-chain__wire {
+  height: 0; background: none; border-top: 2px dashed var(--ghost);
+}
+.u-chain__wire::after {
+  content: ""; position: absolute; right: -1px; top: 50%;
+  width: 6px; height: 9px; margin-top: -4.5px; background: var(--rule-strong);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+.u-chain__link[data-weak="true"] .u-chain__wire::after { background: var(--ghost); }
+/* 通電：整條線在「同時亮」模式下一起變成 accent */
+.u-chain__wire[data-live="true"] { background: var(--accent); }
+.u-chain__wire[data-live="true"]::after { background: var(--accent); }
+
+/* 光點。只動 transform，不動 left。 */
+.u-chain__spark {
+  position: absolute; left: 0; top: 50%;
+  width: 8px; height: 8px; margin-top: -4px; margin-left: -4px;
+  background: var(--accent); border-radius: var(--radius);
+  opacity: 0;
+}
+.u-chain__meta {
+  font-family: var(--font-mono); font-size: var(--t-xs); color: var(--ink-3);
+  margin-top: var(--s-2); text-align: center; line-height: 1.5;
+}
+.u-chain__link[data-weak="true"] .u-chain__meta { color: var(--ink-2); }
+
+/* 手機：水平四節點轉成垂直。水本來就往下流，這個轉向是免費的。 */
+@media (max-width: 767px) {
+  .u-chain { grid-template-columns: 1fr; }
+  .u-chain__link { min-height: 56px; padding: var(--s-2) 0; width: 100%; }
+  .u-chain__wire { width: 2px; height: 100%; min-height: 40px; }
+  .u-chain__link[data-weak="true"] .u-chain__wire {
+    width: 0; height: 100%; border-top: none; border-left: 2px dashed var(--ghost);
+  }
+  .u-chain__wire::after {
+    right: auto; bottom: -1px; top: auto; left: 50%;
+    width: 9px; height: 6px; margin: 0 0 0 -4.5px;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+  }
+}
+
+/* ── 4.4 .u-readout 讀數 ──────────────────────────────────────────────── */
+
+.u-readout { display: flex; flex-direction: column; gap: var(--s-2); }
+.u-readout__row { display: flex; align-items: baseline; gap: var(--s-2); width: fit-content; }
+.u-readout__num {
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+  font-size: var(--t-readout); font-weight: 500; line-height: 1; letter-spacing: -0.02em;
+}
+.u-readout__unit { font-size: var(--t-lg); color: var(--ink-2); }
+.u-readout__rule { height: var(--hair); background: var(--rule); width: 100%; }
+.u-readout__what { font-size: var(--t-sm); color: var(--ink-2); }
+/* 第二行是樣本數與資料月份，不可省略。 */
+.u-readout__basis { font-family: var(--font-mono); font-size: var(--t-xs); color: var(--ink-3); }
+.is-up { color: var(--up); }
+.is-down { color: var(--down); }
+
+/* ── 4.5 .u-windows 多視窗比對 ───────────────────────────────────────────
+   三個視窗共用同一條基線與同一把尺，否則不能並排比較。 */
+
+.u-windows { display: flex; flex-direction: column; gap: var(--s-3); }
+.u-windows__row { display: grid; grid-template-columns: 4.5rem 1fr; gap: var(--s-3); align-items: center; }
+.u-windows__lab { font-family: var(--font-mono); font-size: var(--t-xs); color: var(--ink-3); }
+.u-windows__track {
+  position: relative; height: 14px; background: var(--face-sunk);
+  border-radius: var(--radius); overflow: hidden;
+}
+/* 中線＝0%。長條從中線往左（跌）或往右（漲）長。
+   不畫填滿的進度條軌道：這是有正負的變動量，不是進度。 */
+.u-windows__zero {
+  position: absolute; left: 50%; top: 0; bottom: 0; width: var(--hair);
+  background: var(--rule-strong);
+}
+.u-windows__bar {
+  position: absolute; top: 3px; bottom: 3px;
+  border-radius: 2px; transform-origin: left center;
+}
+.u-windows__bar[data-dir="up"] { background: var(--up); }
+.u-windows__bar[data-dir="down"] { background: var(--down); }
+.u-windows__val {
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+  font-size: var(--t-sm); text-align: right; min-width: 4.5rem;
+}
+.u-windows__verdict { font-size: var(--t-sm); color: var(--ink-2); margin-top: var(--s-1); }
+
+/* ── 4.6 .u-dial 參數旋鈕 ─────────────────────────────────────────────── */
+
+.u-dial { display: flex; flex-direction: column; gap: var(--s-2); }
+.u-dial__lab { font-size: var(--t-sm); color: var(--ink-2); }
+.u-dial__opts {
+  display: flex; flex-wrap: wrap; gap: var(--s-1);
+  background: var(--face-sunk); padding: var(--s-1);
+  border-radius: var(--radius); width: fit-content;
+}
+.u-dial__opt {
+  font-family: var(--font-mono); font-size: var(--t-sm);
+  padding: var(--s-2) var(--s-3); min-height: 32px;
+  background: none; border: none; border-radius: var(--radius);
+  color: var(--ink-2); cursor: pointer; white-space: nowrap;
+}
+.u-dial__opt:hover { color: var(--ink); }
+.u-dial__opt[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.u-dial__opt[aria-disabled="true"] { color: var(--ghost); cursor: not-allowed; }
+.u-dial__note { font-size: var(--t-xs); color: var(--ink-3); }
+
+/* ── 4.7 .u-verdict 判讀 ──────────────────────────────────────────────── */
+
+.u-verdict {
+  display: flex; flex-direction: column; gap: var(--s-3);
+  padding: var(--s-5); background: var(--face-2);
+  border: var(--hair) solid var(--rule); border-radius: var(--radius);
+}
+.u-verdict__line { font-size: var(--t-md); line-height: 1.7; }
+.u-verdict__tag { color: var(--ink-3); font-weight: 700; }
+/* 【邊界】永遠存在，不可被使用者關閉。 */
+.u-verdict__line--edge { font-size: var(--t-sm); color: var(--ink-3); line-height: 1.65; }
+
+/* ── 4.8 .u-datestamp 抓取日戳 ───────────────────────────────────────── */
+
+.u-datestamp {
+  display: inline-flex; align-items: center; gap: var(--s-2);
+  font-family: var(--font-mono); font-size: var(--t-xs); color: var(--ink-3);
+}
+.u-datestamp::before { content: ""; width: 8px; height: var(--hair); background: var(--rule-strong); }
+
+/* ── 4.9 狀態組 ──────────────────────────────────────────────────────── */
+
+.u-skel { background: var(--face-sunk); border-radius: var(--radius); }
+.u-error {
+  border-left: 3px solid var(--warn); padding: var(--s-4) var(--s-5);
+  background: var(--face-2); border-radius: var(--radius);
+}
+.u-error h2 { font-size: var(--t-md); margin-bottom: var(--s-2); }
+.u-note { font-size: var(--t-sm); color: var(--ink-3); line-height: 1.7; }
+.u-stale { color: var(--warn); }
+
+/* ── 4.10 按鈕 ───────────────────────────────────────────────────────── */
+
+.u-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 40px; padding: 0 20px;
+  background: var(--accent); color: var(--accent-ink);
+  border: none; border-radius: var(--radius);
+  font-family: var(--font-cjk); font-size: var(--t-base); font-weight: 500;
+  cursor: pointer; text-decoration: none; white-space: nowrap;
+}
+.u-btn:hover { background: var(--accent-hi); }
+.u-btn:active { transform: translateY(1px); }
+.u-btn--ghost {
+  background: none; color: var(--ink);
+  border: var(--hair) solid var(--rule-strong);
+}
+.u-btn--ghost:hover { background: var(--face-2); border-color: var(--ink-3); }
+
+/* 兩段切換。這是工具 1 的產品本體，所以尺寸跟主按鈕同級，不是小開關。 */
+.u-switch {
+  display: inline-flex; gap: var(--s-1);
+  background: var(--face-sunk); padding: var(--s-1); border-radius: var(--radius);
+}
+.u-switch__opt {
+  height: 40px; padding: 0 var(--s-5);
+  background: none; border: none; border-radius: var(--radius);
+  font-family: var(--font-cjk); font-size: var(--t-base); font-weight: 500;
+  color: var(--ink-2); cursor: pointer; white-space: nowrap;
+}
+.u-switch__opt[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.u-switch__opt:not([aria-pressed="true"]):hover { color: var(--ink); }
+
+/* ── 面板與表格 ─────────────────────────────────────────────────────── */
+
+.u-panel {
+  background: var(--face-2);
+  border: var(--hair) solid var(--rule);
+  border-radius: var(--radius);
+  padding: var(--s-5);
+}
+.u-panel__head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--s-3); margin-bottom: var(--s-4);
+}
+.u-panel__title { font-size: var(--t-md); font-weight: 700; }
+
+/* 關聯矩陣。落後期的欄位是這一頁的主角，不會因為不好看就藏起來。 */
+.u-matrix { width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: var(--t-sm); }
+.u-matrix th, .u-matrix td { padding: var(--s-2) var(--s-3); text-align: right; white-space: nowrap; }
+.u-matrix th:first-child, .u-matrix td:first-child { text-align: left; font-family: var(--font-cjk); }
+.u-matrix thead th {
+  font-weight: 500; color: var(--ink-3); font-size: var(--t-xs);
+  border-bottom: var(--hair) solid var(--rule);
+}
+.u-matrix tbody tr + tr td { border-top: var(--hair) solid var(--rule-faint); }
+.u-matrix td[data-sig="true"] { color: var(--ink); font-weight: 500; }
+.u-matrix td[data-sig="false"] { color: var(--ink-3); }
+.u-matrix col[data-hl="true"], .u-matrix td[data-hl="true"], .u-matrix th[data-hl="true"] {
+  background: color-mix(in srgb, var(--accent-wash) 60%, transparent);
+}
+.u-matrix__wrap { overflow-x: auto; }
+
+@media (max-width: 767px) {
+  .u-panel { padding: var(--s-4); }
+  .u-windows__row { grid-template-columns: 3.5rem 1fr; }
+}

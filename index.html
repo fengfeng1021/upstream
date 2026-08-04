@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>上游 · upstream ／ 你以為的上游，其實跟你同一個月</title>
+<meta name="description" content="美元、台幣、外資、台股這四環的關聯是真的，但沒有時間差。用 FRED、證交所、LBMA 的公開資料，把每一環逐個落後期量出來。免費、無廣告、無追蹤。">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要內容</a>
+<div id="masthead"></div>
+
+<main id="main">
+  <section class="wrap">
+    <div class="h-hero__grid">
+      <div>
+        <h1 class="h-hero__title">你以為的上游，<br>其實跟你同一個月。</h1>
+        <p class="h-hero__sub">美元、台幣、外資、台股的關聯是真的，但它們沒有先後。</p>
+        <div class="h-hero__cta">
+          <a class="u-btn" href="apps/chain/">往上游看</a>
+        </div>
+      </div>
+      <div id="heroChain"></div>
+    </div>
+  </section>
+
+  <section class="u-sec">
+    <div class="wrap">
+      <div class="h-bento" id="bento"></div>
+    </div>
+  </section>
+
+  <section class="u-sec">
+    <div class="wrap">
+      <div class="u-sec__head">
+        <h2 class="u-sec__title">資料地基</h2>
+        <p class="u-sec__sub">全部在 build time 抓下來固化進 repo，前端只讀不抓。每一條序列的起訖都畫在這條軸上。</p>
+      </div>
+      <div class="h-axis u-enter" id="axis"></div>
+    </div>
+  </section>
+
+  <section class="u-sec">
+    <div class="wrap">
+      <div class="u-sec__head">
+        <h2 class="u-sec__title">這個站不做什麼</h2>
+        <p class="u-sec__sub">這不是自我要求，是台灣《證券投資信託及顧問法》的邊界。違反是刑事責任。</p>
+      </div>
+      <div class="h-rules u-enter">
+        <div class="h-rules__group">
+          <h3>不談個別標的</h3>
+          <p>不推薦任何標的，不做篩選排名。ETF 在法律上是受益憑證，即個別有價證券，所以「只談 ETF」不是安全區。站上只談指數與資產類別。</p>
+          <p>沒有買賣價位、支撐壓力點、停損停利價位、買賣轉折價位。這四項是金管會明列的紅線，一項都不碰。</p>
+        </div>
+        <div class="h-rules__group">
+          <h3>不預設判斷</h3>
+          <p>所有門檻由使用者設定。站上不會寫「美元指數多少算強」，只回答「你看的這個值落在歷史分布的第幾百分位」，而且一定寫出視窗有多長。</p>
+          <p>沒有預測型圖表，沒有 K 線、均線、動能指標。任何數字前面都不會加上「將會」。</p>
+        </div>
+        <div class="h-rules__group">
+          <h3>不即時</h3>
+          <p>全站是特定抓取日的快照，不是盤中即時資料。每一頁都標著抓取日期，每一個落後發布的總經數字都標著它實際是哪個月的。</p>
+          <p>資料來源修訂時數字會變。歷史關聯不預測未來。</p>
+        </div>
+        <div class="h-rules__group">
+          <h3>零金流</h3>
+          <p>沒有廣告、沒有聯盟行銷、沒有開戶連結、不收 email、沒有會員、不接業配。沒有任何第三方請求，字體與程式庫全部本機載入。</p>
+          <p>乾淨本身就是這個站的公開賣點，也是它待在法律安全區的方式。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="foot"></div>
+
+<script src="assets/js/vendor/gsap.min.js"></script>
+<script src="assets/js/vendor/ScrollTrigger.min.js"></script>
+<script type="module" src="assets/js/hub.js"></script>
+</body>
+</html>

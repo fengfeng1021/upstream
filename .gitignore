@@ -1,0 +1,4 @@
+.shots/
+.cache/
+.tmp/
+node_modules/
